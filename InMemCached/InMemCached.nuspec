@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>InMemCached</id>
+    <version>$version$</version>
+    <title>InMemCached</title>
+    <authors>Pieter van Ginkel</authors>
+    <owners>Pieter van Ginkel</owners>
+    <licenseUrl>https://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <projectUrl>http://github.com/pvginkel/InMemCached</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>In process .NET MemCached-ish library.</description>
+    <copyright>Pieter van Ginkel © 2016</copyright>
+    <tags>cache memcached</tags>
+  </metadata>
+</package>
