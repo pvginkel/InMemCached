@@ -36,19 +36,14 @@ namespace InMemCached
 
         public byte[] ToByteArray()
         {
-            lock (this)
-            {
-                if (!IsClosed)
-                {
-                    var result = new byte[_length];
-
-                    Marshal.Copy(handle, result, 0, _length);
-
-                    return result;
-                }
-
+            if (IsClosed)
                 return null;
-            }
+
+            var result = new byte[_length];
+
+            Marshal.Copy(handle, result, 0, _length);
+
+            return result;
         }
     }
 }

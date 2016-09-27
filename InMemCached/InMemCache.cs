@@ -36,7 +36,12 @@ namespace InMemCached
         {
             MemoryHandle handle;
             if (_cache.TryGetValue(key, out handle))
-                return handle.ToByteArray();
+            {
+                lock (handle)
+                {
+                    return handle.ToByteArray();
+                }
+            }
 
             return null;
         }
@@ -46,7 +51,10 @@ namespace InMemCached
             MemoryHandle handle;
             if (_cache.TryRemove(key, out handle))
             {
-                handle.Dispose();
+                lock (handle)
+                {
+                    handle.Dispose();
+                }
 
                 return true;
             }
@@ -65,9 +73,12 @@ namespace InMemCached
             {
                 if (_cache != null)
                 {
-                    foreach (var entry in _cache.Values)
+                    foreach (var handle in _cache.Values)
                     {
-                        entry.Dispose();
+                        lock (handle)
+                        {
+                            handle.Dispose();
+                        }
                     }
 
                     _cache = null;
