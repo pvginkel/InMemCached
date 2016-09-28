@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -16,6 +17,8 @@ namespace InMemCached.Benchmark
 
         public void Run(int maxKey, int valueSize, int iterations)
         {
+            TimeSpan elapsed;
+
             using (var container = new T())
             {
                 var threads = new List<Thread>();
@@ -31,6 +34,8 @@ namespace InMemCached.Benchmark
                 }
 
                 Console.WriteLine($"Starting {threadCount} threads");
+
+                var stopwatch = Stopwatch.StartNew();
 
                 for (int i = 0; i < threadCount; i++)
                 {
@@ -54,9 +59,11 @@ namespace InMemCached.Benchmark
                 {
                     thread.Join();
                 }
+
+                elapsed = stopwatch.Elapsed;
             }
 
-            Report(0);
+            FinalReport(elapsed);
         }
 
         private void ThreadProc(T container, int maxKey, int valueSize)
@@ -83,6 +90,11 @@ namespace InMemCached.Benchmark
         private void Report(int iteration)
         {
             Console.WriteLine($"Iteration {iteration} adds {_adds}, gets {_gets}, removes {_removes}");
+        }
+
+        private void FinalReport(TimeSpan elapsed)
+        {
+            Console.WriteLine($"Adds {_adds}, gets {_gets}, removes {_removes}, gets per second {_gets / elapsed.TotalSeconds:0.0}");
         }
     }
 }
