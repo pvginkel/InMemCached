@@ -53,6 +53,70 @@ These heaps are marked as low fragmentation heaps.
 
 All methods (except `Dispose`) on the class are thread safe.
 
+## Performance
+
+A benchmark is available as part of the project. Below are some performance statistics gathered
+using this benchmark. The benchmark was configured as follows:
+
+* CPU: Intel Xeon E3-1245 v3 @ 3.4 GHz (VM);
+* Threads/cores: 4;
+* Maximum cache entries: 20,000 (averages at half);
+* Cache entry size: 100 Kb;
+* Runtime: 30 seconds.
+
+The benchmark was run on a naive managed implementation using just a `ConcurrentDictionary<int, byte[]>`
+and two versions of the `InMemCache`: one with object pooling and one without.
+
+The result are as follows:
+
+* Managed: 45435 retrievals per second;
+* InMem: 28089 retrievals per second;
+* InMem pooled: 28610 retrievals per second.
+
+Using PerfMon, the following GC statistics were gathered:
+
+| Run | G0 | G1 | G2 | Max pause | Total pause | Peak GC size | Peak working set |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Managed | 220 | 138 | 144 | 61.6 ms | 1.1 s | 2,490 Mb | 2,514 Mb |
+| InMem | 0 | 0 | 15109 | 8.9 ms | 13.7 s | 5 Mb | 1,033 Mb |
+| InMem pooled | 0 | 0 | 6165 | 3.4 ms | 6.3 s | 5 Mb | 1,025 Mb |
+
+The difference in G2 collections between the pooled and non pooled version probably can
+be explained by the removal of a finalizer. In the non pooled version, references to
+native memory were managed using a finalizer, which requires the collection of an object
+to be delayed, even if the finalizer is not run. In the pooled version, no finalizer is
+used. The reason this is not a problem is that all allocations are done from a single heap
+which is destroyed when the `InMemCache` instance is disposed. This ensures that we don't
+leak memory even if we don't free all separate allocations.
+
+The full details are as follows:
+
+* Managed:
+
+![Managed GC stats](https://raw.githubusercontent.com/pvginkel/InMemCached/master/Documentation/Managed%20GC%20stats.png)
+
+* InMem:
+
+![InMem GC stats](https://raw.githubusercontent.com/pvginkel/InMemCached/master/Documentation/InMem%20naive%20GC%20stats.png)
+
+* InMem pooled:
+
+![InMem pooled GC stats](https://raw.githubusercontent.com/pvginkel/InMemCached/master/Documentation/InMem%20pooled%20GC%20stats.png)
+
+And the full PerfMon statistics:
+
+* Managed:
+
+![Managed GC PerfMon](https://raw.githubusercontent.com/pvginkel/InMemCached/master/Documentation/Managed%20PerfMon%20stats.png)
+
+* InMem:
+
+![InMem GC PerfMon](https://raw.githubusercontent.com/pvginkel/InMemCached/master/Documentation/InMem%20naive%20PerfMon%20stats.png)
+
+* InMem pooled:
+
+![InMem pooled GC PerfMon](https://raw.githubusercontent.com/pvginkel/InMemCached/master/Documentation/InMem%20pooled%20PerfMon%20stats.png)
+
 ## Bugs
 
 Bugs should be reported through github at
