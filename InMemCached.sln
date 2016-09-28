@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InMemCached", "InMemCached\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InMemCached.Test", "InMemCached.Test\InMemCached.Test.csproj", "{2BA3E3E7-EB6F-4F85-9D4E-3762E9F73E10}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InMemCached.Benchmark", "InMemCached.Benchmark\InMemCached.Benchmark.csproj", "{556B8C91-486C-4C64-975C-B5F401EF0B5E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{2BA3E3E7-EB6F-4F85-9D4E-3762E9F73E10}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BA3E3E7-EB6F-4F85-9D4E-3762E9F73E10}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BA3E3E7-EB6F-4F85-9D4E-3762E9F73E10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{556B8C91-486C-4C64-975C-B5F401EF0B5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{556B8C91-486C-4C64-975C-B5F401EF0B5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{556B8C91-486C-4C64-975C-B5F401EF0B5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{556B8C91-486C-4C64-975C-B5F401EF0B5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
