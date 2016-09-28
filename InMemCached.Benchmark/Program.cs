@@ -9,7 +9,7 @@ namespace InMemCached.Benchmark
     {
         static void Main(string[] args)
         {
-            new Benchmark<ManagedContainer>().Run(20000, 100000, 30);
+            new Benchmark<InMemContainer>().Run(20000, 100000, 30);
         }
     }
 }

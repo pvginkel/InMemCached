@@ -41,7 +41,6 @@
   <ItemGroup>
     <Compile Include="HeapHandle.cs" />
     <Compile Include="InMemCache.cs" />
-    <Compile Include="MemoryHandle.cs" />
     <Compile Include="NativeMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
